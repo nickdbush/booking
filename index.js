@@ -31,7 +31,7 @@ const apiAuth = (req, res, next) => {
 
 app.get("/", authOrLogin, (req, res) => {
   const events = Event.getEvents();
-  res.render("list", { events });
+  res.render("list", { events, name: req.user.name });
 });
 
 app.get("/login", (req, res) => {
