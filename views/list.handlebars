@@ -1,0 +1,17 @@
+<header>
+  <div class="Container">
+    Friends Events
+  </div>
+</header>
+<main>
+  <div class="Container">
+    <section>
+      <p>Signed in as Nicholas Bush.
+        <a href="/logout">Log out</a>
+      </p>
+    </section>
+    <div class="CardList">
+      {{#each events}} {{> event}} {{/each}} {{> fakeEvent}}
+    </div>
+  </div>
+</main>

@@ -1,0 +1,101 @@
+body,
+html {
+  background-color: #e7e6f8;
+  padding: 0;
+  margin: 0;
+  font: 1em/1.2 "Roboto", sans-serif;
+}
+
+header .Container,
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+}
+
+input,
+button,
+select {
+  padding: 16px;
+  font: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background-color: white;
+}
+
+input,
+select {
+  width: 100%;
+}
+
+form {
+  width: 100%;
+  display: flex;
+}
+
+form input,
+form select {
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
+button {
+  padding: 16px 32px;
+  font-weight: bold;
+  background-color: darkslateblue;
+  color: white;
+  box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.12),
+    0 0 0.1rem rgba(0, 0, 0, 0.12);
+}
+
+.Container {
+  max-width: 700px;
+  margin: auto;
+}
+
+header .Container {
+  padding: 32px 16px;
+  font-size: 3rem;
+}
+
+.Card {
+  background-color: white;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.12),
+    0 0 0.1rem rgba(0, 0, 0, 0.12);
+}
+
+.CardImage {
+  background-color: darkslateblue;
+  height: 200px;
+  width: 100%;
+}
+
+.Card .CardDetails {
+  padding: 16px 24px;
+}
+
+.CardList .Card {
+  margin-bottom: 32px;
+}
+
+.KeyValue {
+  margin: 16px 0;
+}
+
+.KeyValue .Key {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+section {
+  margin-bottom: 16px;
+}
+
+.Small {
+  font-size: 0.9rem;
+  font-style: italic;
+}

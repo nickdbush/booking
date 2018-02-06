@@ -1,0 +1,30 @@
+<header>
+  <div class="Container">Login</div>
+</header>
+<main>
+  <div class="Container">
+    <p>Enter your email address (which has received emails from Friends Events in the past)</p>
+    <form id="js-form">
+      <input type="email" placeholder="Email address">
+      <button>Login</button>
+    </form>
+    <p id="js-status" class="Small"></p>
+  </div>
+</main>
+
+<script>
+  var form = document.getElementById('js-form');
+  var input = document.querySelector('input[type=email]');
+  var statusEl = document.getElementById('js-status');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = input.value.trim().toLowerCase();
+    axios.post('/auth', { email }).then(response => {
+      window.location = '/';
+    }, err => {
+      const statusText = err.response.data || err.response.statusText;
+      statusEl.innerText = statusText;
+    });
+  });
+</script>

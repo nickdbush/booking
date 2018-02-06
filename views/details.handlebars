@@ -1,0 +1,78 @@
+<header>
+  <div class="Container">{{event.title}}</div>
+</header>
+<main>
+  <div class="Container CardList">
+    <div class="Card">
+      <div class="CardDetails">
+        <h2>About the event</h2>
+        <section>
+          {{> keyValue key="Host" value=event.host}} {{> keyValue key="Date" value=event.date}} {{> keyValue key="Venue" value=event.venue}}
+          {{> keyValue key="Spaces left" value=event.spacesLeft}}
+        </section>
+        <section>
+          {{#each event.longDescription}}
+          <p>{{this}}</p>
+          {{/each}}
+        </section>
+      </div>
+    </div>
+    <div class="Card">
+      <div class="CardDetails">
+        <h2>Reserve</h2>
+        {{#if event.reservation}}
+        <section>
+          <p>You have a reservation for {{event.reservation.spaces}}</p>
+          <button id="js-cancel">Cancel reservation</button>
+        </section>
+        {{else}} {{#if event.has1}}
+        <section>
+          <p>You can book up to {{event.spacesAvailable}} spaces for this event</p>
+          <form id="js-form">
+            <select id="js-options">
+              {{#if event.has1}}
+              <option value="1">1 space</option> {{/if}} {{#if event.has2}}
+              <option value="2">2 spaces</option> {{/if}} {{#if event.has3}}
+              <option value="3">3 spaces</option> {{/if}} {{#if event.has4}}
+              <option value="4">4 spaces</option> {{/if}}
+            </select>
+            <button>Reserve</button>
+          </form>
+        </section>
+        {{else}}
+        <section>
+          <p>There are no spaces left for this event</p>
+        </section>
+        {{/if}} {{/if}}
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  var form = document.getElementById('js-form');
+  var options = document.getElementById('js-options');
+  var cancel = document.getElementById('js-cancel');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const value = options.value;
+      if (value !== '1' && value !== '2' && value !== '3' && value !== '4') {
+        return;
+      }
+      const spaces = parseInt(value);
+      axios.post('/reservation/{{event.id}}', { spaces }).then(response => {
+        window.location.reload();
+      }, err => console.error(err));
+    });
+  }
+
+  if (cancel) {
+    cancel.addEventListener('click', function (e) {
+      axios.delete('/reservation/{{event.id}}').then(response => {
+        window.location.reload();
+      }, err => console.error(err));
+    });
+  }
+</script>
