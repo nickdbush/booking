@@ -59,6 +59,7 @@ button {
 .Container {
   max-width: 700px;
   margin: auto;
+  padding: 0px 16px;
 }
 
 header .Container {
@@ -80,6 +81,8 @@ header .Container {
   background-color: darkslateblue;
   height: 200px;
   width: 100%;
+  background-size: cover;
+  background-position: center;
 }
 
 .Card .CardDetails {

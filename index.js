@@ -35,9 +35,12 @@ app.get("/", authOrLogin, (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  if (req.signedCookies["auth"]) {
+  const user = User.checkAuth(req);
+  if (user) {
     res.redirect("/");
     return;
+  } else {
+    res.clearCookie("auth");
   }
   res.render("login");
 });
