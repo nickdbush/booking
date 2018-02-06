@@ -57,22 +57,30 @@
   if (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      const value = options.value;
+      var value = options.value;
+
       if (value !== '1' && value !== '2' && value !== '3' && value !== '4') {
         return;
       }
-      const spaces = parseInt(value);
-      axios.post('/reservation/{{event.id}}', { spaces }).then(response => {
+
+      var spaces = parseInt(value);
+      axios.post('/reservation/{{event.id}}', {
+        spaces: spaces
+      }).then(function (response) {
         window.location.reload();
-      }, err => console.error(err));
+      }, function (err) {
+        return console.error(err);
+      });
     });
   }
 
   if (cancel) {
     cancel.addEventListener('click', function (e) {
-      axios.delete('/reservation/{{event.id}}').then(response => {
+      axios.delete('/reservation/{{event.id}}').then(function (response) {
         window.location.reload();
-      }, err => console.error(err));
+      }, function (err) {
+        return console.error(err);
+      });
     });
   }
 </script>

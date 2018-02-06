@@ -20,10 +20,13 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var email = input.value.trim().toLowerCase();
-    axios.post('/auth', { email }).then(response => {
+    
+    axios.post('/auth', {
+      email: email
+    }).then(function (response) {
       window.location = '/';
-    }, err => {
-      const statusText = err.response.data || err.response.statusText;
+    }, function (err) {
+      var statusText = err.response.data || err.response.statusText;
       statusEl.innerText = statusText;
     });
   });
