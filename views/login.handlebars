@@ -1,10 +1,12 @@
 <header>
-  <div class="Container">Login</div>
+  <div class="Container">Account</div>
 </header>
 <main>
   <div class="Container">
+    <a href="/">All events</a>
     <section>
-      <p>Enter your email address (which has received emails from Friends Events in the past)</p>
+      <h2>Login</h2>
+      <p>If you have entered your email address previously, please log in</p>
       <form id="js-login-form">
         <input type="email" placeholder="Email address">
         <button>Login</button>
@@ -13,11 +15,12 @@
     </section>
     <section>
       <h2>Sign up</h2>
+      <p>If you have not registered with us before, please sign up</p>
       <form id="js-register-form" class="Form--vertical">
         <input type="text" placeholder="Name" id="js-register-name">
         <input type="email" placeholder="Email address" id="js-register-email">
         <input type="email" placeholder="Confirm email address" id="js-register-email2">
-        <button>Login</button>
+        <button>Sign up</button>
       </form>
       <p id="js-status" class="Small"></p>
     </section>
@@ -42,7 +45,7 @@
     axios.post('/auth', {
       email: email
     }).then(function (response) {
-      window.location = '/';
+      window.location = '{{redirect}}';
     }, function (err) {
       var statusText = err.response.data || err.response.statusText;
       loginStatusEl.innerText = statusText;
@@ -62,7 +65,7 @@
       name: name,
       email: email
     }).then(function (response) {
-      window.location = '/';
+      window.location = '{{redirect}}';
     }, function (err) {
       var statusText = err.response.data || err.response.statusText;
       registrationStatus.innerText = statusText;

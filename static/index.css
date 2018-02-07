@@ -104,10 +104,6 @@ header .Container {
   padding: 16px 24px;
 }
 
-.CardList:not(.Container) {
-  margin-top: 32px;
-}
-
 .CardList .Card {
   margin-bottom: 32px;
 }

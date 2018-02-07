@@ -43,7 +43,9 @@ app.get("/login", (req, res) => {
   } else {
     res.clearCookie("auth");
   }
-  res.render("login");
+  res.render("login", {
+    redirect: req.query.redirect ? `/event/${req.query.redirect}` : "/"
+  });
 });
 
 app.get("/event/:id", getUser, (req, res) => {
@@ -55,9 +57,9 @@ app.get("/event/:id", getUser, (req, res) => {
   const spacesLeft = Event.spacesLeft(event["id"]);
   const spacesAvailable = Math.min(spacesLeft, 4);
   res.render("details", {
+    user: req.user,
     event: {
       ...event,
-      user: req.user,
       longDescription: event["longDescription"].split("\n"),
       date: dateformat(new Date(event["date"]), "dddd dS mmmm, h:MMtt"),
       spacesLeft,

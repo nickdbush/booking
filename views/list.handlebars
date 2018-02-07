@@ -5,15 +5,13 @@
 </header>
 <main>
   <div class="Container">
+    {{#if user}}
     <section>
-      {{#if user}}
       <span>Signed in as {{user.name}}.
         <a href="/logout">Log out</a>
       </span>
-      {{else}}
-      <a href="/login" class="Button">Sign in</a>
-      {{/if}}
     </section>
+    {{/if}}
     <div class="CardList">
       {{#each events}} {{> event}} {{/each}} {{> fakeEvent}}
     </div>
