@@ -20,7 +20,7 @@
     <div class="Card">
       <div class="CardDetails">
         <h2>Reserve</h2>
-        {{#if event.reservation}}
+        {{#if user}} {{#if event.reservation}}
         <section>
           <p>You have a reservation for {{event.reservation.spaces}}</p>
           <button id="js-cancel">Cancel reservation</button>
@@ -43,7 +43,12 @@
         <section>
           <p>There are no spaces left for this event</p>
         </section>
-        {{/if}} {{/if}}
+        {{/if}} {{/if}} {{else}}
+        <section>
+          <p>You need to
+            <a href="/login">login</a> to continue</p>
+        </section>
+        {{/if}}
       </div>
     </div>
   </div>

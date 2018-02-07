@@ -10,11 +10,12 @@ const app = express();
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("body-parser").json());
 app.use(require("cookie-parser")(process.env.COOKIE_SECRET || "3rt48k8o642"));
+app.set("trust proxy", 1);
 
 app.engine("handlebars", handlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-const authOrLogin = User.authenticate((req, res) => res.redirect("/login"));
+const getUser = User.authenticate((req, res, next) => next());
 const apiAuth = (req, res, next) => {
   const auth = req.get("X-Auth");
   if (auth) {
@@ -29,9 +30,9 @@ const apiAuth = (req, res, next) => {
   res.sendStatus(401);
 };
 
-app.get("/", authOrLogin, (req, res) => {
+app.get("/", getUser, (req, res) => {
   const events = Event.getEvents();
-  res.render("list", { events, name: req.user.name });
+  res.render("list", { events, user: req.user });
 });
 
 app.get("/login", (req, res) => {
@@ -45,7 +46,7 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/event/:id", authOrLogin, (req, res) => {
+app.get("/event/:id", getUser, (req, res) => {
   const event = Event.getEvent(req.params["id"]);
   if (!event) {
     res.redirect("/");
@@ -56,11 +57,14 @@ app.get("/event/:id", authOrLogin, (req, res) => {
   res.render("details", {
     event: {
       ...event,
+      user: req.user,
       longDescription: event["longDescription"].split("\n"),
       date: dateformat(new Date(event["date"]), "dddd dS mmmm, h:MMtt"),
       spacesLeft,
       spacesAvailable,
-      reservation: Event.reservationsForPerson(event.id, req.user.email),
+      reservation: req.user
+        ? Event.reservationsForPerson(event.id, req.user.email)
+        : null,
       has1: spacesAvailable >= 1,
       has2: spacesAvailable >= 2,
       has3: spacesAvailable >= 3,
@@ -95,6 +99,17 @@ app.delete("/reservation/:eventId", User.authenticate(), (req, res) => {
   res.json(result);
 });
 
+app.post("/user", (req, res) => {
+  const { email, name } = req.body;
+  if (!email || !name) {
+    res.sendStatus(400);
+    return;
+  }
+  const user = User.createUser({ email, name });
+  User.setCookie(res, email, req.secure);
+  res.json({ email, name });
+});
+
 app.post("/auth", (req, res) => {
   const email = req.body.email;
   if (!email) {
@@ -106,14 +121,7 @@ app.post("/auth", (req, res) => {
     res.status(400).send("Email not found");
     return;
   }
-  const expiry = new Date();
-  expiry.setFullYear(expiry.getFullYear + 1);
-  res.cookie("auth", email, {
-    httpOnly: true,
-    secure: req.secure,
-    expires: expiry,
-    signed: true
-  });
+  User.setCookie(res, email, req.secure);
   res.sendStatus(200);
 });
 

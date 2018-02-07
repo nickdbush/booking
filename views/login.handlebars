@@ -3,31 +3,69 @@
 </header>
 <main>
   <div class="Container">
-    <p>Enter your email address (which has received emails from Friends Events in the past)</p>
-    <form id="js-form">
-      <input type="email" placeholder="Email address">
-      <button>Login</button>
-    </form>
-    <p id="js-status" class="Small"></p>
+    <section>
+      <p>Enter your email address (which has received emails from Friends Events in the past)</p>
+      <form id="js-login-form">
+        <input type="email" placeholder="Email address">
+        <button>Login</button>
+      </form>
+      <p id="js-login-status" class="Small"></p>
+    </section>
+    <section>
+      <h2>Sign up</h2>
+      <form id="js-register-form" class="Form--vertical">
+        <input type="text" placeholder="Name" id="js-register-name">
+        <input type="email" placeholder="Email address" id="js-register-email">
+        <input type="email" placeholder="Confirm email address" id="js-register-email2">
+        <button>Login</button>
+      </form>
+      <p id="js-status" class="Small"></p>
+    </section>
   </div>
 </main>
 
 <script>
-  var form = document.getElementById('js-form');
-  var input = document.querySelector('input[type=email]');
-  var statusEl = document.getElementById('js-status');
+  var loginForm = document.getElementById('js-login-form');
+  var loginEmail = document.querySelector('#js-login-form input[type=email]');
+  var loginStatusEl = document.getElementById('js-login-status');
 
-  form.addEventListener('submit', function (e) {
+  var registrationForm = document.getElementById('js-register-form');
+  var registrationName = document.getElementById('js-register-name');
+  var registrationEmail = document.getElementById('js-register-email');
+  var registrationEmail2 = document.getElementById('js-register-email2');
+  var registrationStatus = document.getElementById('js-registration-status');
+
+  loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var email = input.value.trim().toLowerCase();
-    
+    var email = loginEmail.value.trim().toLowerCase();
+
     axios.post('/auth', {
       email: email
     }).then(function (response) {
       window.location = '/';
     }, function (err) {
       var statusText = err.response.data || err.response.statusText;
-      statusEl.innerText = statusText;
+      loginStatusEl.innerText = statusText;
     });
   });
+
+  registrationForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = registrationName.value.trim();
+    var email = registrationEmail.value.trim().toLowerCase();
+    var email2 = registrationEmail2.value.trim().toLowerCase();
+    if (email !== email2) {
+      registrationStatus.innerText = 'Emails do not match';
+      return;
+    }
+    axios.post('/user', {
+      name: name,
+      email: email
+    }).then(function (response) {
+      window.location = '/';
+    }, function (err) {
+      var statusText = err.response.data || err.response.statusText;
+      registrationStatus.innerText = statusText;
+    });
+  })
 </script>

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body,
 html {
   background-color: #e7e6f8;
@@ -17,7 +21,8 @@ h4 {
 
 input,
 button,
-select {
+select,
+.Button {
   padding: 16px;
   font: inherit;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -37,6 +42,14 @@ form {
   display: flex;
 }
 
+form.Form--vertical {
+  display: block;
+}
+
+form.Form--vertical input {
+  margin-bottom: 8px;
+}
+
 form input,
 form select {
   -webkit-box-flex: 1;
@@ -45,11 +58,13 @@ form select {
   margin-right: 16px;
 }
 
-button {
+button,
+.Button {
   padding: 16px 32px;
   font-weight: bold;
   background-color: darkslateblue;
   color: white;
+  text-decoration: none;
   -webkit-box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.12),
     0 0 0.1rem rgba(0, 0, 0, 0.12);
   box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.12),
@@ -87,6 +102,10 @@ header .Container {
 
 .Card .CardDetails {
   padding: 16px 24px;
+}
+
+.CardList:not(.Container) {
+  margin-top: 32px;
 }
 
 .CardList .Card {

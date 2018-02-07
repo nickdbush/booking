@@ -6,9 +6,13 @@
 <main>
   <div class="Container">
     <section>
-      <p>Signed in as {{name}}.
+      {{#if user}}
+      <span>Signed in as {{user.name}}.
         <a href="/logout">Log out</a>
-      </p>
+      </span>
+      {{else}}
+      <a href="/login" class="Button">Sign in</a>
+      {{/if}}
     </section>
     <div class="CardList">
       {{#each events}} {{> event}} {{/each}} {{> fakeEvent}}
